@@ -1,0 +1,30 @@
+{
+    "globals": {
+        "background": "#181820FF",
+        "background_input": "#1D1D27FF",
+        "accent": "#181820FF",
+        "foreground_selected": "#262635FF",
+        "foreground_unselected": "#22222DFF"
+    },
+
+    "configuration": {
+        "font": "Iosevka NFM",
+        "header_width": 350,
+        "header_title_height": 38,
+        "line_height": 24
+    },
+
+    "misc": {
+        "background_opacity": 0.10,
+        "header_opacity": 0.85,
+        "header_border_radius": 3.62,
+        "input_border_radius": 3.62
+    },
+
+    "symbols": {
+        "multi_option": "",
+        "single_option": "┃",
+        "maximize": "",
+        "minimize": ""
+    }
+}
