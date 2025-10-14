@@ -89,7 +89,7 @@ static HWND GetWindowHandle()
 unsigned __stdcall MainThread(void*)
 {
     HMODULE hModule = GetModuleHandleA(NULL);
-    uintptr_t offset = 0x29d1;
+    uintptr_t offset = 0x829f0;
 
     void* target = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(hModule) + offset);
     HookManager::Instance().Install(target);
