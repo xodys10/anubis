@@ -68,7 +68,6 @@ private:
 static HWND GetWindowHandle()
 {
     HWND hwnd = nullptr;
-    DWORD pid = GetCurrentProcessId();
 
     EnumWindows([](HWND hWnd, LPARAM lParam) -> BOOL
     {
@@ -90,7 +89,7 @@ static HWND GetWindowHandle()
 unsigned __stdcall MainThread(void*)
 {
     HMODULE hModule = GetModuleHandleA(NULL);
-    uintptr_t offset = 0x123456; // placeholder for now, will look into it later
+    uintptr_t offset = 0x29d1;
 
     void* target = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(hModule) + offset);
     HookManager::Instance().Install(target);
