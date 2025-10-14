@@ -51,7 +51,8 @@ private:
         if (instance.m_Original)
             instance.m_Original(p_Overlay);
         
-        instance.m_Overlay.Init();
+        HWND hwnd = GetWindowHandle();
+        instance.m_Overlay.Init(hwnd);
     }
 
 private:
@@ -63,6 +64,28 @@ private:
     Init_t m_Original;
     Overlay m_Overlay;
 };
+
+static HWND GetWindowHandle()
+{
+    HWND hwnd = nullptr;
+    DWORD pid = GetCurrentProcessId();
+
+    EnumWindows([](HWND hWnd, LPARAM lParam) -> BOOL
+    {
+        DWORD wndPid = 0;
+        GetWindowThreadProcessId(hWnd, &wndPid);
+
+        if (wndPid != GetCurrentProcessId()) return TRUE;
+        if (!IsWindowVisible(hWnd)) return TRUE;
+        if (GetParent(hWnd)) return TRUE;
+
+        *reinterpret_cast<HWND*>(lParam) = hWnd;
+        return FALSE;
+
+    }, reinterpret_cast<LPARAM>(&hwnd));
+
+    return hwnd;
+}
 
 unsigned __stdcall MainThread(void*)
 {
