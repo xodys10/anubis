@@ -4,11 +4,13 @@
 #include "Extra.hpp"
 #include "Overlay.hpp"
 
+static HWND GetWindowHandle();
+
+using HookSignature_t = bool(*)(void* thisptr);
+
 class HookManager
 {
 public:
-  
-    using Init_t = void(__cdecl*)(Overlay*);
 
     bool Install(void* target)
     {
@@ -45,23 +47,24 @@ public:
 
 private:
 
-    static void __cdecl Detour(Overlay* p_Overlay)
-    {
-        auto& instance = Instance();
-        if (instance.m_Original)
-            instance.m_Original(p_Overlay);
-        
-        HWND hwnd = GetWindowHandle();
-        instance.m_Overlay.Init(hwnd);
-    }
-
-private:
     HookManager() = default;
     ~HookManager() = default;
 
-    bool m_Installed;
+    static bool Detour(void* thisptr)
+    {
+        auto& instance = Instance();
+        bool result = instance.m_Original ? instance.m_Original(thisptr) : true;
+
+        HWND hwnd = GetWindowHandle();
+        if (hwnd)
+            instance.m_Overlay.Init(hwnd);
+
+        return result;
+    }
+
+    bool m_Installed = false;
     void* m_Target;
-    Init_t m_Original;
+    HookSignature_t m_Original = nullptr;
     Overlay m_Overlay;
 };
 
