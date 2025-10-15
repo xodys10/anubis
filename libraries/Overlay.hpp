@@ -9,6 +9,7 @@ class Overlay
 {
 public:
 
-    void __cdecl Init();
-    void __cdecl CreateCategory(const std::string& name);
+    void __cdecl Init(HWND hwnd);
+    void __cdecl Render();
+    void __cdecl Shutdown();
 };
