@@ -6,7 +6,7 @@
 
 static HWND GetWindowHandle();
 
-using HookSignature_t = bool(*)(void* thisptr);
+using MenuLayer_t = bool(*)(void* thisptr);
 
 class HookManager
 {
@@ -64,7 +64,7 @@ private:
 
     bool m_Installed = false;
     void* m_Target;
-    HookSignature_t m_Original = nullptr;
+    MenuLayer_t m_Original = nullptr;
     Overlay m_Overlay;
 };
 
@@ -92,7 +92,7 @@ static HWND GetWindowHandle()
 unsigned __stdcall MainThread(void*)
 {
     HMODULE hModule = GetModuleHandleA(NULL);
-    uintptr_t offset = 0x829f0;
+    uintptr_t offset = 0x31ebd0;
 
     void* target = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(hModule) + offset);
     HookManager::Instance().Install(target);
