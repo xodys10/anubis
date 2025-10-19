@@ -5,7 +5,6 @@
 #include "Overlay.hpp"
 
 static HWND GetWindowHandle();
-
 using MenuLayer_t = bool(*)(void* thisptr);
 
 class HookManager
@@ -72,20 +71,13 @@ static HWND GetWindowHandle()
 {
     HWND hwnd = nullptr;
 
-    EnumWindows([](HWND hWnd, LPARAM lParam) -> BOOL
-    {
-        DWORD wndPid = 0;
-        GetWindowThreadProcessId(hWnd, &wndPid);
+    // since we know the class of gd is always GLFW30
+    // and the caption is Geometry Dash, we can get the handle like that
 
-        if (wndPid != GetCurrentProcessId()) return TRUE;
-        if (!IsWindowVisible(hWnd)) return TRUE;
-        if (GetParent(hWnd)) return TRUE;
+    const char* windowClassName = "GLFW30";
+    const char* windowCaption = "Geometry Dash";
 
-        *reinterpret_cast<HWND*>(lParam) = hWnd;
-        return FALSE;
-
-    }, reinterpret_cast<LPARAM>(&hwnd));
-
+    HWND hwnd = FindWindow(windowClassName, windowCaption);
     return hwnd;
 }
 
@@ -104,12 +96,7 @@ DLLEXPORT void StartThread()
 {
     HANDLE hThread = reinterpret_cast<HANDLE>(
         _beginthreadex(
-            nullptr,
-            0,
-            MainThread,
-            nullptr,
-            0,
-            nullptr
+            nullptr, 0, MainThread, nullptr, 0, nullptr
         )
     );
 
