@@ -82,7 +82,7 @@ static HWND GetWindowHandle()
 
 unsigned __stdcall MainThread(void*)
 {
-    HMODULE hModule = GetModuleHandleA(NULL);
+    HMODULE hModule = GetModuleHandleW(nullptr);
     uintptr_t offset = 0x31ebd0;
 
     void* target = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(hModule) + offset);
