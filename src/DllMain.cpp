@@ -55,8 +55,7 @@ private:
         bool result = instance.m_Original ? instance.m_Original(thisptr) : true;
 
         HWND hwnd = GetWindowHandle();
-        if (hwnd)
-            instance.m_Overlay.Init(hwnd);
+        if (hwnd) instance.m_Overlay.Init(hwnd);
 
         return result;
     }
