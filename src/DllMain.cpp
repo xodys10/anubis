@@ -73,10 +73,10 @@ static HWND GetWindowHandle()
     // since we know the class of gd is always GLFW30
     // and the caption is Geometry Dash, we can get the handle like that
 
-    const char* windowClassName = "GLFW30";
-    const char* windowCaption = "Geometry Dash";
+    const char* targetClassName = "GLFW30";
+    const char* targetCaption = "Geometry Dash";
 
-    HWND hwnd = FindWindow(windowClassName, windowCaption);
+    hwnd = FindWindow(targetClassName, targetCaption);
     return hwnd;
 }
 
