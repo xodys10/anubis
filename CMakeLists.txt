@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(artemis LANGUAGES CXX)
+project(kitty LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -23,17 +23,17 @@ file(GLOB_RECURSE SRC
     # our dependencies
 )
 
-add_library(artemis SHARED ${SRC})
+add_library(kitty SHARED ${SRC})
 
 # win/ogl definitions
-target_compile_definitions(artemis PRIVATE
+target_compile_definitions(kitty PRIVATE
     WIN32_LEAN_AND_MEAN
     # WIN32_LEAN_AND_MEAN just removes all super niche functions/variables that are unused or else it would be litered with random things
     NOMINMAX
 )
 
 # link things
-target_link_libraries(artemis
+target_link_libraries(kitty
     MinHook.x64.lib
     opengl32.lib
     user32.lib
