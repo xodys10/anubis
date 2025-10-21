@@ -9,16 +9,14 @@ using MenuLayer_t = bool(*)(void* thisptr);
 
 class HookManager
 {
-public:
+ public:
 
     bool Install(void* target)
     {
         if (m_Installed || target == nullptr) return false;
 
         MH_Initialize();
-
         m_Target = target;
-
         MH_CreateHook(target, &Detour,  reinterpret_cast<void**>(&m_Original));
         MH_EnableHook(m_Target);
 
@@ -44,7 +42,7 @@ public:
         return instance;
     }
 
-private:
+ private:
 
     HookManager() = default;
     ~HookManager() = default;
@@ -70,11 +68,10 @@ static HWND GetWindowHandle()
 {
     HWND hwnd = nullptr;
 
-    // since we know the class of gd is always GLFW30
-    // and the caption is Geometry Dash, we can get the handle like that
+    // thank you spy++
 
-    const char* targetClassName = "GLFW30";
-    const char* targetCaption = "Geometry Dash";
+    constexpr wchar_t targetClassName[] = L"GLFW30";
+    constexpr wchar_t targetCaption[] = L"Geometry Dash";
 
     hwnd = FindWindow(targetClassName, targetCaption);
     return hwnd;
@@ -84,7 +81,7 @@ unsigned __stdcall MainThread(void*)
 {
     HMODULE hModule = GetModuleHandleW(nullptr);
     uintptr_t offset = 0x31ebd0;
-
+	
     void* target = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(hModule) + offset);
     HookManager::Instance().Install(target);
 
